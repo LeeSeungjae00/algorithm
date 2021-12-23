@@ -25,7 +25,7 @@ function main(inp) {
         while(true){
             if(Q[0][1] === Math.max(...(Q.map(val => val[1])))){
                 ++result;
-                if(Q[0][0] == Number(M)){
+                if(Q[0][0] === Number(M)){
                     console.log(result);
                     break;
                 }else{
