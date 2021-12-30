@@ -1,4 +1,3 @@
-const { checkPrimeSync } = require("crypto");
 var readline = require("readline");
 var r = readline.createInterface({
     input: process.stdin,
@@ -29,21 +28,21 @@ function main(input) {
 
     while (true) {
         if (M === '10') { console.log(basic); return; }
-
+        if(basic < i) {console.log(basic); return;}
+        if ((Number(N) - i) >= 0) {
+            if (checkArr((Number(N) - i).toString().split(''))) {
+                let up = (Number(N) - i);
+                let upCase = up.toString().split('').length + Math.abs(i);
+                console.log(Math.min(upCase, basic));
+                return;
+            }
+        }
         if (checkArr((Number(N) + i).toString().split(''))) {
-            let up = (Number(N) + i);
-            let upCase = up.toString().split('').length + Math.abs(i);
-            console.log(Math.min(upCase, basic));
+            let down = (Number(N) + i);
+            let downCase = down.toString().split('').length + Math.abs(i);
+            console.log(Math.min(downCase, basic));
             return;
         }
-
-        if (checkArr((Number(N) - i).toString().split(''))) {
-            let up = (Number(N) - i);
-            let upCase = up.toString().split('').length + Math.abs(i);
-            console.log(Math.min(upCase, basic));
-            return;
-        }
-
         i++
     }
 
