@@ -14,16 +14,25 @@ r.on("line", function (line) {
 });
 
 
-const checkChar = [];
-let temp = "";
+let checkChar = [];
 
-function main(input){
+function main(input) {
     const [N, ...words] = input;
     let result = 0;
 
     words.forEach(word => {
+        let temp = false
         word.split('').forEach((chr, i) => {
-            
+            if (checkChar.indexOf(chr) === -1) {
+                checkChar.push(chr);
+            } else {
+                if (word.split('')[i - 1] !== chr) {
+                    temp = true;
+                }
+            }
         })
+        checkChar = []
+        if (temp) result++
     });
+    console.log(+N - result);
 }
