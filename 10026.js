@@ -23,7 +23,6 @@ function main(input) {
     let result = '';
 
     let queue = []
-    let visit = []
 
 
     for (let i = 0; i < N; i++) {
@@ -33,7 +32,6 @@ function main(input) {
                 queue.push({x : i , y : j})
                 while (queue.length > 0) {
                     const { x, y } = queue.pop();
-                    visit.push({ x, y });
 
                     
                     if (x - 1 >= 0) {
@@ -74,9 +72,8 @@ function main(input) {
                 queue.push({x : i , y : j})
                 while (queue.length > 0) {
                     const { x, y } = queue.pop();
-                    visit.push({ x, y });
 
-                    
+
                     if (x - 1 >= 0) {
                         if (spaceRG[x][y] === spaceRG[x - 1][y] && typeof spaceRG[x - 1][y] !== 'number') {
                             queue.push({ x: x - 1, y });
