@@ -24,7 +24,7 @@ function main(input) {
 
     cmds.forEach(cmd => {
         const [c, v] = cmd.split(" ");
-        if(c === "push"){
+        if (c === "push") {
             cmdsMatcher[c](stack, v);
             return
         }
@@ -50,19 +50,78 @@ function size(arr) {
 }
 
 function empty(arr) {
-    if(arr.length === 0) return 1;
+    if (arr.length === 0) return 1;
     else return 0;
 }
 
-function top(arr){
+function top(arr) {
     if (arr.length === 0) return -1
-    return arr[arr.length -1];
+    return arr[arr.length - 1];
 }
 
 const cmdsMatcher = {
-    "push" : push,
-    "top" : top,
-    "size" : size,
-    "empty" : empty,
-    "pop" : pop
+    "push": push,
+    "top": top,
+    "size": size,
+    "empty": empty,
+    "pop": pop
+}
+
+class Node {
+    constructor(data) {
+        this.data = data;
+        this.next = null;
+    }
+}class Queue {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+        this.length = 0;
+    }
+
+    push(val) {
+        const node = Node(val);
+        if (!this.head) {
+            this.head = node;
+            this.tail = node;
+        } else {
+            this.tail.next = node;
+        }
+
+        this.tail = node;
+        this.length++;
+    }
+
+    pop() {
+        if (this.size === 0) {
+            return -1;
+        }
+        const val = this.head.data;
+        this.head = this.head.next;
+        this.length--;
+
+        return val;
+    }
+
+    size() {
+        return this.length;
+    }
+
+    empty() {
+        return this.length === 0 ? 1 : 0;
+    }
+
+    front() {
+        if (!this.head) {
+            return -1;
+        }
+        return this.head.data;
+    }
+
+    back() {
+        if (!this.tail) {
+            return -1;
+        }
+        return this.tail.data;
+    }
 }
