@@ -26,11 +26,17 @@ function main(input) {
         const [c, v] = cmd.split(" ");
 
         switch (c) {
-            case "push":
-                queue.push(v);
+            case "push_front":
+                queue.pushFront(v);
                 return;
-            case "pop":
-                result += `${queue.pop()}\n`
+            case "push_back":
+                queue.pushBack(v);
+                return;
+            case "pop_front":
+                result += `${queue.popFront()}\n`
+                return;
+            case "pop_back":
+                result += `${queue.popBack()}\n`
                 return;
             case "size":
                 result += `${queue.size()}\n`
@@ -45,6 +51,8 @@ function main(input) {
                 result += `${queue.back()}\n`
                 return;
         }
+
+        
     });
 
     console.log(result);
@@ -54,7 +62,8 @@ function main(input) {
 class Node {
     constructor(data) {
         this.data = data;
-        this.next = null;
+        this.front = null;
+        this.back = null;
     }
 }
 class Queue {
@@ -64,24 +73,50 @@ class Queue {
         this.length = 0;
     }
 
-    push(val) {
+
+    pushFront(val) {
         const node = new Node(val);
-        if (!this.head) {
+        if (this.length === 0) {
+            this.tail = node;
+        } else {
+            node.back = this.head;
+            this.head.front = node;
+        }
+
+        this.head = node;
+        this.length++;
+    }
+
+    pushBack(val) {
+        const node = new Node(val);
+        if (this.length === 0) {
             this.head = node;
         } else {
-            this.tail.next = node;
+            node.front = this.tail
+            this.tail.back = node;
         }
 
         this.tail = node;
         this.length++;
     }
 
-    pop() {
+    popFront() {
         if (this.length === 0) {
             return -1;
         }
         const val = this.head.data;
-        this.head = this.head.next;
+        this.head = this.head.back;
+        this.length--;
+
+        return val;
+    }
+
+    popBack() {
+        if (this.length === 0) {
+            return -1;
+        }
+        const val = this.tail.data;
+        this.tail = this.tail.front;
         this.length--;
 
         return val;
