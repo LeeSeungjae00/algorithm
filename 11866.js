@@ -28,8 +28,6 @@ function main(input){
     while(result.length < N){
         step = (step + K) % circleList.length;
         result.push(circleList.splice(step,1));
-       
-         
     }
 
 
