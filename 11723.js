@@ -1,5 +1,4 @@
 var readline = require("readline");
-const { number } = require("yargs");
 var r = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
