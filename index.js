@@ -1,4 +1,3 @@
-const { kill } = require("process");
 var readline = require("readline");
 var r = readline.createInterface({
     input: process.stdin,
