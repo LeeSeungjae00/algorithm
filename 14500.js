@@ -69,8 +69,6 @@ function main(input) {
         }
 
 
-
-
         queue.forEach(val => {
             const [x, y] = val;
             if (max < visited[`${y + "" + x}`]) max = visited[`${y + "" + x}`]
