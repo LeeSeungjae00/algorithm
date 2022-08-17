@@ -13,15 +13,6 @@ r.on("line", function (line) {
     process.exit();
 });
 
-function sliceNum(n){
-    const xxxx = Math.floor(n / 1000);
-    const xxx = Math.floor(n / 100);
-    const xx = Math.floor(n / 10);
-    const x = n % 10;
-
-    return [xxxx, xxx, xx, x]
-}
-
 function main(input) {
     const T = +input.shift()
 
@@ -30,9 +21,8 @@ function main(input) {
     
     function bfs([start, end]){
         let queue = [start];
-        const visitied = {
-            [start] : ""
-        };
+        const visitied = new Array(10000)
+        visitied[start] = ""
         while(1){
             const newCmd = [];
             for(let i = 0; i < queue.length; i++){
@@ -67,7 +57,7 @@ function main(input) {
                 }  
             }
 
-            queue = [...newCmd]
+            queue = newCmd
             
         }
     }
