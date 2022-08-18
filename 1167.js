@@ -17,7 +17,6 @@ r.on("line", function (line) {
 function main(input) {
     const V = +input.shift()
     const graph = []
-    let result = -Infinity
 
     input.forEach((str, idx) => {
         const arr = str.split(' ')
