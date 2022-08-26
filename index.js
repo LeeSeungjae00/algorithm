@@ -15,47 +15,94 @@ r.on("line", function (line) {
 
 function main(input) {
     const N = +input.shift()
-    const graph = new Array(N + 1).fill(0).map(() => [])
-    let start
-    input.map((str) => {
-        const [from, to, cost] = str.split(' ').map(Number)
-        graph[from].push({ to, cost })
-        graph[to].push({ to: from, cost })
-        start = from
+    const tree = [, ...input.shift().split(' ')]
+
+    input.forEach(val => {
+        const [node, ch1, ch2] = val.split(' ')
+
+        tree.push(ch1);
+        tree.push(ch2)
     })
 
-    if(N === 1){
-        console.log(0)
-        return;
+
+    console.log(pre(tree));
+    console.log(inO(tree));
+    console.log(post(tree));
+
+    function pre(tree) {
+        // const visited = [];
+        // const result = [];
+        // const queue = []
+
+        // for (let i = 1; i < tree.length; i++) {
+        //     if (!visited[i]) {
+        //         let temp = i;
+        //         while (tree.length > temp) {
+        //             if (tree[temp] === '.') break;
+        //             visited[temp] = true
+        //             result.push(tree[temp])
+        //             temp *= 2
+        //         }
+        //     }
+        // }
+
+        // return result.join('')
+        rseult = pre()
     }
-
-    function dfs(start) {
-        const queue = [start];
+    function inO(tree) {
         const visited = [];
-        const gVisited = {};
+        let result = [];
+        const queue = [];
+        let rResult = '';
 
-        visited[start] = 0;
-
-        while (queue.length !== 0) {
-            const data = queue.pop()
-            for (let i = 0; i < graph[data].length; i++) {
-                const { to, cost } = graph[data][i]
-                if (!gVisited[`${to}${data}`] && !gVisited[`${data}${to}`]) {
-                    queue.push(to)
-                    visited[to] = visited[data] + cost;
-                    gVisited[`${to}${data}`] = true
+        for (let i = 1; i < tree.length; i++) {
+            if (!visited[i]) {
+                let temp = i;
+                while (tree.length > temp) {
+                    if (tree[temp] === '.') {
+                        // rResult = [...rResult, ...result.reverse()]; 
+                        rResult += result.reverse().join('')
+                        result = []
+                        break;
+                    }
+                    visited[temp] = true
+                    result.push(tree[temp])
+                    temp *= 2
                 }
             }
         }
 
-        let max = Math.max(...visited.filter(val => typeof val === 'number'))
-        let node = visited.indexOf(max)
-
-        return { max, node }
+        return rResult
     }
+    function post() {
+        const visited = [];
+        let result = [];
+        const queue = [];
+        let rResult = '';
 
-    let { node } = dfs(start)
-    let { max } = dfs(node)
+        for (let i = 1; i < tree.length; i++) {
+            let temp = i * 2;
+            if (!visited[i]) {
+                while (tree.length > temp) {
+                    if (tree[temp] === '.') {
+                        rResult += result.reverse().join('')
+                        result = []
+                        break;
+                    }
+                    visited[temp] = true
+                    result.push(tree[temp])
+                    temp *= 2
+                }
+            }
+        }
+        for (let i = tree.length - 1; i > 0; i--) {
+            if (!visited[i]) {
+                if(tree[i] !== "."){
+                    rResult += tree[i]
+                }
+            }
+        }
 
-    console.log(max)
+        return rResult
+    }
 }   
