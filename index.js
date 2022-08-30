@@ -1,3 +1,4 @@
+const { green } = require("chalk");
 var readline = require("readline");
 var r = readline.createInterface({
     input: process.stdin,
@@ -17,48 +18,57 @@ function main(input) {
     const [N, M] = input.shift().split(' ').map(Number)
     const wall = []
     const graph = input.map((str, i) =>
-        str.split('').map((val, j) => {
-            if (val === '1') wall.push([i, j])
-            return +val
-        })
+        str.split('')
     )
     let min = Infinity
 
-    function bfs(start, wall) {
+    function bfs(start) {
         let queue = [start];
         let tempQueue = [];
+        let dist = {};
+        let wdist = {};
         const visited = {};
+        //visited 1 : 그냥 통과
+        //vistied 2 : 벽 뚫 통과
         visited[`${start[0]}${start[1]}`] = 1;
+        dist[`${start[0]}${start[1]}`] = 1;
+        dist[`${start[0]}${start[1]}`] = 1;
+
         const dy = [1, -1, 0, 0]
         const dx = [0, 0, -1, 1]
         while (queue.length !== 0) {
             for(let i =0; i < queue.length; i++){
-                const [y, x] = queue[i];
+                const [y, x, broken] = queue[i];
                 for(let i = 0 ; i < 4 ; i++){
                     const [ny, nx] = [y + dy[i], x + dx[i]]
-                    if(visited[`${ny}${nx}`]) continue
                     if(ny < 0 || ny >= N || nx < 0 || nx >= M) continue
-                    if(graph[ny][nx] === 1 && (wall[0] !== ny || wall[1] !== nx)) continue
-                    visited[`${ny}${nx}`] = visited[`${y}${x}`] + 1
-                    if(visited[`${ny}${nx}`] > min) return false
-                    if(ny === N - 1 && nx === M - 1) return visited[`${ny}${nx}`]
-                    tempQueue.push([ny, nx])
+                    if(broken === 1 && graph[ny][nx] === '1') continue
+                    if(graph[ny][nx] === '1'){
+                        if(visited[`${ny}${nx}`] >= 1) continue
+                        tempQueue.push([ny,nx,1])
+                        visited[`${ny}${nx}`] = 2
+                        wdist[`${ny}${nx}`] = dist[`${y}${x}`] + 1
+                    }else{
+                        if(visited[`${ny}${nx}`] === 1) continue
+                        tempQueue.push([ny,nx,broken])
+                        visited[`${ny}${nx}`] = 1
+                        if(broken === 1){
+                            wdist[`${ny}${nx}`] = wdist[`${y}${x}`] + 1    
+                        }else{
+                            dist[`${ny}${nx}`] = dist[`${y}${x}`] + 1
+                        }
+                    }
+                    
                 }
             }
             queue = [...tempQueue]
             tempQueue = []
         }
-        return false;
+
+        return [dist[`${N - 1}${M - 1}`] , wdist[`${N - 1}${M - 1}`]]
     }
 
-    for(let i =0; i < wall.length; i++){
-        let temp = bfs([0,0], wall[i])
-        if(temp) {
-            min = temp
-        }
-    }
-
-    console.log(min === Infinity ? '-1' : min)
+    console.log(bfs([0,0,0,]))
 }   
 
 main(`8 8
