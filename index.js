@@ -14,62 +14,29 @@ r.on("line", function (line) {
 });
 
 function main(input) {
-    const N = +input.shift() 
-    const tree =  {}
+    const [N, M] = input.shift().map(Number)
+    const wall = []
+    const graph = input.map((str, i) =>
+        str.split('').map((val, j) => {
+            if (val === '1') wall.push([i, j])
+            return +val
+        })
+    )
 
-    tree[1] = 'A'
-    input.forEach(val => {
-        const [node, ch1, ch2] = val.split(' ')
-
-        tree[node] = {leftCh : ch1, rightCh : ch2}
-    })
-
-    console.log(pre('A'));
-    console.log(inO('A'));
-    console.log(post('A'));
-
-    function pre(start) {
-        const {leftCh, rightCh} = tree[start]
-        let result = ''
-
-        result += start
-
-        if (tree[leftCh] && tree[leftCh] !== '.')
-            result += pre(leftCh)
-        if (tree[rightCh] && tree[rightCh] !== '.') {
-            result += pre(rightCh)
+    function bfs(start, wall) {
+        const queue = [start];
+        const tempQueue = [];
+        const visited = {};
+        visited[start] = true;
+        const dy = [1, -1, 0, 0]
+        const dx = [0, 0, -1, 1]
+        while (queue.length !== 0) {
+            const [y, x] = queue.pop();
+            for(let i = 0 ; i < 4 ; i++){
+                const [ny, nx] = [y + dy[i], x + dx[i]]
+                if(!visited) continue
+                if(dy < 0 && dy >= N && dx < 0 && dx >= M) continue
+            }
         }
-        return result
-    }
-    function inO(start) {
-        const {leftCh, rightCh} = tree[start]
-        let result = ''
-
-        if (tree[leftCh] && tree[leftCh] !== '.') {
-            result += inO(leftCh)
-        }
-
-        result += start
-
-        if (tree[rightCh] && tree[rightCh] !== '.') {
-            result += inO(rightCh)
-        }
-        return result
-    }
-    function post(start) {
-        const {leftCh, rightCh} = tree[start]
-        let result = ''
-
-        if (tree[leftCh] && tree[leftCh] !== '.') {
-            result += post(leftCh)
-        }
-
-        if (tree[rightCh] && tree[rightCh] !== '.') {
-            result += post(rightCh)
-        }
-
-        result += start
-
-        return result
     }
 }   
