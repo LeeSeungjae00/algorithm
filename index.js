@@ -25,7 +25,7 @@ function main(input) {
         if (end <= 0) return
         const inRoot = inOrder.indexOf(postOrder[start + end])
         tree(start, inRoot - 1 - start)
-        tree(inRoot - start + 1, end - inRoot - 1)
+        tree(inRoot - start, end - inRoot - start - 1)
     }
 
     console.log(tree(0, n - 1), graph)
