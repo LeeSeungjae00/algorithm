@@ -16,35 +16,43 @@ r.on("line", function (line) {
 function main(input) {
     const n = Number(input.shift())
     let indexMap = {}
-    const inOrder = input.shift().split(' ').map((val, i) => { 
+    const inOrder = input.shift().split(' ').map((val, i) => {
         indexMap[val] = i
         return val
     })
     const postOrder = input.shift().split(' ')
-    const graph = [];
+    let graph = '';
 
-    function tree(start, len) {
-        if(start + len < 0) return
-        if(len < 0) return
-        if(len === 0){
-            graph.push(postOrder[start + len])
+    function tree(postOrderStart, postOrderEnd, inOrderStart, inOrderEnd) {
+        if (postOrderEnd < postOrderStart || inOrderStart > inOrderEnd) return
+        if (postOrderEnd - postOrderStart === 1 === 0) {
+            graph += postOrder[inOrderEnd] + ' '
             return
-        } 
-        if(len === 1){
-            graph.push(postOrder[start + 1])
-            graph.push(postOrder[start ])
+        }
+        if (postOrderEnd - postOrderStart === 1) {
+            graph += postOrder[postOrderEnd] + ' '
+            graph += postOrder[postOrderStart] + ' '
             return
-        } 
-        let startIndex = indexMap[postOrder[start]]
-        if(!startIndex) startIndex = 0
-        let index = indexMap[postOrder[start + len]]
-        graph.push(postOrder[start + len])
+        }
 
-        tree(start, index - startIndex - 1);
-        tree(start + index - startIndex, len + startIndex - index - 1)
+        graph += postOrder[postOrderEnd] + ' '
+
+        let inORoot = indexMap[postOrder[postOrderEnd]]
+
+        tree(
+            postOrderStart,
+            postOrderStart + inORoot - 1 - inOrderStart,
+            inOrderStart,
+            inORoot - 1
+        );
+        tree(
+            postOrderStart + inORoot - inOrderStart,
+            postOrderEnd - 1,
+            inORoot + 1,
+            inOrderEnd
+        )
     }
-
-    tree(0, n- 1)
-    console.log(graph.join(' '))
+    tree(0, n - 1, 0, n - 1)
+    console.log(graph)
 
 }
