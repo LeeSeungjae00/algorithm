@@ -14,32 +14,6 @@ r.on("line", function (line) {
 });
 
 function main(input) {
-<<<<<<< HEAD
-    const [N, M] = input[0].split(' ').map(Number)
-    const result = []
-
-    function backTrack(data) {
-        if (data.length === M) {
-            result.push(data.join(' '))
-            return
-        }
-
-
-        for (let i = data[data.length - 1]; i <= N; i++) {
-            if (data.indexOf(i) === -1) {
-                backTrack([...data, i])
-            }
-        }
-    }
-
-
-    for (let i = 1; i <= N - M + 1; i++) {
-        backTrack([i])
-    }
-
-    console.log(result.join('\n'))
-}
-=======
     const T = +input.shift()
     let index = 0
 
@@ -75,4 +49,3 @@ function main(input) {
 }
 
 
->>>>>>> b100e2d89f75b2a782014bb7e21e933553da2621
