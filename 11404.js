@@ -19,9 +19,9 @@ function main(input) {
 
     for (let i = 0; i < input[1]; i++) {
         const [from, to, cost] = input[i + 2].split(' ').map(Number)
-        if(arr[from - 1][to - 1] > cost){
+        if (arr[from - 1][to - 1] > cost) {
             arr[from - 1][to - 1] = cost
-        }      
+        }
     }
 
 
@@ -31,25 +31,26 @@ function main(input) {
             //출 j
             for (let k = 0; k < N; k++) {
                 //도 k
-                if(j === k){
+                if (j === k) {
                     arr[j][k] = 0
                     continue
                 }
-                if(arr[j][k] > arr[j][i] + arr[i][k]){
+                if (arr[j][k] > arr[j][i] + arr[i][k]) {
                     arr[j][k] = arr[j][i] + arr[i][k]
                 }
-                
+
             }
-            
+
         }
+        console.table(arr)
     }
 
     console.log(
         arr.map(ar => ar.
             map(val => {
-                if(val === Infinity) return 0
+                if (val === Infinity) return 0
                 return val
             }).join(' ')
-            ).join('\n'))
+        ).join('\n'))
 
 }
