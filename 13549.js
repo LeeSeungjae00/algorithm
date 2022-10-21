@@ -32,14 +32,15 @@ function main(input) {
           visited[node * 2] = visited[node]
           tempqueue.push(node * 2)
         }
-        if (visited[node + 1] === undefined && node + 1 < 100001) {
-          visited[node + 1] = visited[node] + 1
-          tempqueue.push(node + 1)
-        }
         if (visited[node - 1] === undefined && node - 1 >= 0) {
           visited[node - 1] = visited[node] + 1
           tempqueue.push(node - 1)
         }
+        if (visited[node + 1] === undefined && node + 1 < 100001) {
+          visited[node + 1] = visited[node] + 1
+          tempqueue.push(node + 1)
+        }
+
       }
       queue = [...tempqueue]
     }
