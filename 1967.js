@@ -17,14 +17,18 @@ function main(input) {
     const N = +input.shift()
     const graph = new Array(N + 1).fill(0).map(() => [])
     let start
+    let temp = 0
     input.map((str) => {
         const [from, to, cost] = str.split(' ').map(Number)
         graph[from].push({ to, cost })
         graph[to].push({ to: from, cost })
-        start = from
+        if (temp < cost) {
+            temp = cost
+            start = from
+        }
     })
 
-    if(N === 1){
+    if (N === 1) {
         console.log(0)
         return;
     }
@@ -55,6 +59,7 @@ function main(input) {
     }
 
     let { node } = dfs(start)
+
     let { max } = dfs(node)
 
     console.log(max)
