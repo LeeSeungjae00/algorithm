@@ -37,3 +37,4 @@ function main(input) {
 
     console.log(result.join('\n'))
 }
+
